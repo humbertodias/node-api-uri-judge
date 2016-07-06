@@ -42,6 +42,12 @@ Run
 node server.js
 ```
 
+Browser
+
+```
+http://localhost:3000
+```
+
 ## Output
 
 ![Preview](doc/node-uri-judge.png)
