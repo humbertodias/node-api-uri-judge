@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <title>Rank no URI - DCC/UFRJ</title>
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/cover/cover.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css" rel="stylesheet">
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+</head>
+
+<body>
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand">DCC/SENAC</h3>
+                        <nav>
+                            <ul class="nav masthead-nav">
+                                <li class="active"><a href="#">Home</a></li>
+                                <li><a href="#university-tab">Universidade</a></li>
+                                <li><a href="#students-tab">Alunos</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div id="university-tab" class="inner cover">
+                    <h1 class="cover-heading">BCC/SENAC</h1>
+                    <p id="rank" class="lead"></p>
+                    <!-- <p class="lead">
+              <a href="#" class="btn btn-lg btn-default">Learn more</a>
+            </p>-->
+                </div>
+                <div id="students-tab" class="inner cover">
+                    <h1 class="cover-heading">Alunos</h1>
+                    <table id="students" data-sort-name="problems" data-sort-order="desc" data-pagination="true" data-page-size="5">
+                        <thead>
+                            <tr>
+                                <th name="position" data-field="order" data-halign="center" data-align="center">#</th>
+                                <th data-field="name" data-halign="center" data-align="left">Nome</th>
+                                <th data-field="problems" data-halign="center" data-align="center">Problemas</th>
+                                <th data-field="tried" data-halign="center" data-align="center">Tentados</th>
+                                <th data-field="submissions" data-halign="center" data-align="center">Submissões</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a> and <a href="https://twitter.com/filipebraida">@filipebraida.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+    <script>
+    var sort_by = function(field, reverse, primer) {
+
+        var key = primer ?
+            function(x) {
+                return primer(x[field])
+            } :
+            function(x) {
+                return x[field]
+            };
+
+        reverse = !reverse ? 1 : -1;
+
+        return function(a, b) {
+            return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+        }
+    }
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'uri',
+            success: function(data) {
+                var text = "Ranking: " + data["ufrrj"] + "º <br>";
+                text += "Problems solved: " + data["p_ufrrj"] + "<br>";
+                text += "Registered students: " + data["t_ufrrj"];
+                $('#rank').html(text);
+                data["students"].sort(sort_by('problems', true, parseInt));
+
+                data3 = new Array();
+
+                var i = 1;
+                for (var x in data["students"]) {
+                    data["students"][x]["order"] = i++;
+                    var link = data["students"][x]["profile"];
+                    var tried = data["students"][x]["tried"];
+                    var submissions = data["students"][x]["submissions"];
+                    data3.push(data["students"][x]);
+                }
+                $('#students').bootstrapTable({
+                    data: data3
+                });
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>
