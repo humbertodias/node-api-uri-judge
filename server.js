@@ -58,7 +58,7 @@ var server = app.listen(3000, function () {
 
 function uri_crawler_university() {
     var my_browser = new Browser(); // Here's where you need to call new
-    var url = "https://www.urionlinejudge.com.br/judge/en/universities?page="
+    var url = "https://www.beecrowd.com.br/judge/en/universities?page="
 
     var is_found = false;
 
@@ -101,10 +101,10 @@ function uri_crawler_university() {
     }
 }
 
-//Top 10 of UFRRJ
+//Top 10
 function uri_crawler_students() {
     var my_browser = new Browser(); // Here's where you need to call new
-    var url = "https://www.urionlinejudge.com.br/judge/en/users/university/senac";
+    var url = "https://www.beecrowd.com.br/judge/en/users/university/senacsp"
     var top = 10; //show only top 10 students
 
     my_browser.visit(url, function (e, browser) {
